@@ -7,10 +7,10 @@ const int ledPin_B = 25;
 
 const int Servo_PWM = 13;
 
-const int trigger_1 = 14;
+const int trigger_1 = 12;
 //const int trigger_2 = 26;
 
-const int echo_1 = 12;
+const int echo_1 = 14;
 //const int echo_2 = 27;
 
 Servo MG995_Servo;
@@ -31,11 +31,19 @@ void setup()
 
   RGB_color(0, 255, 0); // Green
   delay(500);
+  RGB_color(0, 0, 0); // OFF
+  delay(500);
   RGB_color(0, 255, 0); // Green
   delay(500);
   RGB_color(0, 0, 0); // OFF
 
-  MG995_Servo.attach(Servo_PWM);
+  ESP32PWM::allocateTimer(0); // allocate timer 0
+  ESP32PWM::allocateTimer(1); // allocate timer 1
+  ESP32PWM::allocateTimer(2); // allocate timer 2
+  ESP32PWM::allocateTimer(3); // allocate timer 3
+
+  MG995_Servo.setPeriodHertz(50); // standard 50 hz servo
+  MG995_Servo.attach(Servo_PWM, 500, 2500); // attach the servo on pin 13 to the servo object
 }
 
 void loop() 
